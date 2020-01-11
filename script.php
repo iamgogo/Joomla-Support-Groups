@@ -6,29 +6,27 @@
       \ \/ / _` / __| __| | |  | |/ _ \ \ / / _ \ |/ _ \| '_ \| '_ ` _ \ / _ \ '_ \| __| | |\/| |/ _ \ __| '_ \ / _ \ / _` |
        \  / (_| \__ \ |_  | |__| |  __/\ V /  __/ | (_) | |_) | | | | | |  __/ | | | |_  | |  | |  __/ |_| | | | (_) | (_| |
         \/ \__,_|___/\__| |_____/ \___| \_/ \___|_|\___/| .__/|_| |_| |_|\___|_| |_|\__| |_|  |_|\___|\__|_| |_|\___/ \__,_|
-                                                        | |                                                                 
-                                                        |_| 				
+                                                        | |
+                                                        |_|
 /-------------------------------------------------------------------------------------------------------------------------------/
 
-	@version		1.0.8
-	@build			5th May, 2018
+	@version		1.0.10
+	@build			14th August, 2019
 	@created		24th February, 2016
 	@package		Support Groups
 	@subpackage		script.php
-	@author			Llewellyn van der Merwe <http://www.vdm.io>	
+	@author			Llewellyn van der Merwe <http://www.vdm.io>
 	@copyright		Copyright (C) 2015. All Rights Reserved
-	@license		GNU/GPL Version 2 or later - http://www.gnu.org/licenses/gpl-2.0.html 
-	
-	Support Groups 
-                                                             
+	@license		GNU/GPL Version 2 or later - http://www.gnu.org/licenses/gpl-2.0.html
+
+	Support Groups
+
 /-----------------------------------------------------------------------------------------------------------------------------*/
 
 // No direct access to this file
 defined('_JEXEC') or die('Restricted access');
 
 JHTML::_('behavior.modal');
-jimport('joomla.installer.installer');
-jimport('joomla.installer.helper');
 
 /**
  * Script File of Supportgroups Component
@@ -36,21 +34,27 @@ jimport('joomla.installer.helper');
 class com_supportgroupsInstallerScript
 {
 	/**
-	 * method to install the component
+	 * Constructor
 	 *
-	 * @return void
+	 * @param   JAdapterInstance  $parent  The object responsible for running this script
 	 */
-	function install($parent)
-	{
-
-	}
+	public function __construct(JAdapterInstance $parent) {}
 
 	/**
-	 * method to uninstall the component
+	 * Called on installation
 	 *
-	 * @return void
+	 * @param   JAdapterInstance  $parent  The object responsible for running this script
+	 *
+	 * @return  boolean  True on success
 	 */
-	function uninstall($parent)
+	public function install(JAdapterInstance $parent) {}
+
+	/**
+	 * Called on uninstallation
+	 *
+	 * @param   JAdapterInstance  $parent  The object responsible for running this script
+	 */
+	public function uninstall(JAdapterInstance $parent)
 	{
 		// Get Application object
 		$app = JFactory::getApplication();
@@ -83,7 +87,7 @@ class com_supportgroupsInstallerScript
 			$db->setQuery($query);
 			// Execute the query to remove Support_group items
 			$support_group_done = $db->execute();
-			if ($support_group_done);
+			if ($support_group_done)
 			{
 				// If succesfully remove Support_group add queued success message.
 				$app->enqueueMessage(JText::_('The (com_supportgroups.support_group) type alias was removed from the <b>#__content_type</b> table'));
@@ -98,7 +102,7 @@ class com_supportgroupsInstallerScript
 			$db->setQuery($query);
 			// Execute the query to remove Support_group items
 			$support_group_done = $db->execute();
-			if ($support_group_done);
+			if ($support_group_done)
 			{
 				// If succesfully remove Support_group add queued success message.
 				$app->enqueueMessage(JText::_('The (com_supportgroups.support_group) type alias was removed from the <b>#__contentitem_tag_map</b> table'));
@@ -113,7 +117,7 @@ class com_supportgroupsInstallerScript
 			$db->setQuery($query);
 			// Execute the query to remove Support_group items
 			$support_group_done = $db->execute();
-			if ($support_group_done);
+			if ($support_group_done)
 			{
 				// If succesfully remove Support_group add queued success message.
 				$app->enqueueMessage(JText::_('The (com_supportgroups.support_group) type alias was removed from the <b>#__ucm_content</b> table'));
@@ -169,7 +173,7 @@ class com_supportgroupsInstallerScript
 			$db->setQuery($query);
 			// Execute the query to remove Payment items
 			$payment_done = $db->execute();
-			if ($payment_done);
+			if ($payment_done)
 			{
 				// If succesfully remove Payment add queued success message.
 				$app->enqueueMessage(JText::_('The (com_supportgroups.payment) type alias was removed from the <b>#__content_type</b> table'));
@@ -184,7 +188,7 @@ class com_supportgroupsInstallerScript
 			$db->setQuery($query);
 			// Execute the query to remove Payment items
 			$payment_done = $db->execute();
-			if ($payment_done);
+			if ($payment_done)
 			{
 				// If succesfully remove Payment add queued success message.
 				$app->enqueueMessage(JText::_('The (com_supportgroups.payment) type alias was removed from the <b>#__contentitem_tag_map</b> table'));
@@ -199,7 +203,7 @@ class com_supportgroupsInstallerScript
 			$db->setQuery($query);
 			// Execute the query to remove Payment items
 			$payment_done = $db->execute();
-			if ($payment_done);
+			if ($payment_done)
 			{
 				// If succesfully remove Payment add queued success message.
 				$app->enqueueMessage(JText::_('The (com_supportgroups.payment) type alias was removed from the <b>#__ucm_content</b> table'));
@@ -255,7 +259,7 @@ class com_supportgroupsInstallerScript
 			$db->setQuery($query);
 			// Execute the query to remove Facility items
 			$facility_done = $db->execute();
-			if ($facility_done);
+			if ($facility_done)
 			{
 				// If succesfully remove Facility add queued success message.
 				$app->enqueueMessage(JText::_('The (com_supportgroups.facility) type alias was removed from the <b>#__content_type</b> table'));
@@ -270,7 +274,7 @@ class com_supportgroupsInstallerScript
 			$db->setQuery($query);
 			// Execute the query to remove Facility items
 			$facility_done = $db->execute();
-			if ($facility_done);
+			if ($facility_done)
 			{
 				// If succesfully remove Facility add queued success message.
 				$app->enqueueMessage(JText::_('The (com_supportgroups.facility) type alias was removed from the <b>#__contentitem_tag_map</b> table'));
@@ -285,7 +289,7 @@ class com_supportgroupsInstallerScript
 			$db->setQuery($query);
 			// Execute the query to remove Facility items
 			$facility_done = $db->execute();
-			if ($facility_done);
+			if ($facility_done)
 			{
 				// If succesfully remove Facility add queued success message.
 				$app->enqueueMessage(JText::_('The (com_supportgroups.facility) type alias was removed from the <b>#__ucm_content</b> table'));
@@ -341,7 +345,7 @@ class com_supportgroupsInstallerScript
 			$db->setQuery($query);
 			// Execute the query to remove Facility_type items
 			$facility_type_done = $db->execute();
-			if ($facility_type_done);
+			if ($facility_type_done)
 			{
 				// If succesfully remove Facility_type add queued success message.
 				$app->enqueueMessage(JText::_('The (com_supportgroups.facility_type) type alias was removed from the <b>#__content_type</b> table'));
@@ -356,7 +360,7 @@ class com_supportgroupsInstallerScript
 			$db->setQuery($query);
 			// Execute the query to remove Facility_type items
 			$facility_type_done = $db->execute();
-			if ($facility_type_done);
+			if ($facility_type_done)
 			{
 				// If succesfully remove Facility_type add queued success message.
 				$app->enqueueMessage(JText::_('The (com_supportgroups.facility_type) type alias was removed from the <b>#__contentitem_tag_map</b> table'));
@@ -371,7 +375,7 @@ class com_supportgroupsInstallerScript
 			$db->setQuery($query);
 			// Execute the query to remove Facility_type items
 			$facility_type_done = $db->execute();
-			if ($facility_type_done);
+			if ($facility_type_done)
 			{
 				// If succesfully remove Facility_type add queued success message.
 				$app->enqueueMessage(JText::_('The (com_supportgroups.facility_type) type alias was removed from the <b>#__ucm_content</b> table'));
@@ -427,7 +431,7 @@ class com_supportgroupsInstallerScript
 			$db->setQuery($query);
 			// Execute the query to remove Additional_info items
 			$additional_info_done = $db->execute();
-			if ($additional_info_done);
+			if ($additional_info_done)
 			{
 				// If succesfully remove Additional_info add queued success message.
 				$app->enqueueMessage(JText::_('The (com_supportgroups.additional_info) type alias was removed from the <b>#__content_type</b> table'));
@@ -442,7 +446,7 @@ class com_supportgroupsInstallerScript
 			$db->setQuery($query);
 			// Execute the query to remove Additional_info items
 			$additional_info_done = $db->execute();
-			if ($additional_info_done);
+			if ($additional_info_done)
 			{
 				// If succesfully remove Additional_info add queued success message.
 				$app->enqueueMessage(JText::_('The (com_supportgroups.additional_info) type alias was removed from the <b>#__contentitem_tag_map</b> table'));
@@ -457,7 +461,7 @@ class com_supportgroupsInstallerScript
 			$db->setQuery($query);
 			// Execute the query to remove Additional_info items
 			$additional_info_done = $db->execute();
-			if ($additional_info_done);
+			if ($additional_info_done)
 			{
 				// If succesfully remove Additional_info add queued success message.
 				$app->enqueueMessage(JText::_('The (com_supportgroups.additional_info) type alias was removed from the <b>#__ucm_content</b> table'));
@@ -513,7 +517,7 @@ class com_supportgroupsInstallerScript
 			$db->setQuery($query);
 			// Execute the query to remove Info_type items
 			$info_type_done = $db->execute();
-			if ($info_type_done);
+			if ($info_type_done)
 			{
 				// If succesfully remove Info_type add queued success message.
 				$app->enqueueMessage(JText::_('The (com_supportgroups.info_type) type alias was removed from the <b>#__content_type</b> table'));
@@ -528,7 +532,7 @@ class com_supportgroupsInstallerScript
 			$db->setQuery($query);
 			// Execute the query to remove Info_type items
 			$info_type_done = $db->execute();
-			if ($info_type_done);
+			if ($info_type_done)
 			{
 				// If succesfully remove Info_type add queued success message.
 				$app->enqueueMessage(JText::_('The (com_supportgroups.info_type) type alias was removed from the <b>#__contentitem_tag_map</b> table'));
@@ -543,7 +547,7 @@ class com_supportgroupsInstallerScript
 			$db->setQuery($query);
 			// Execute the query to remove Info_type items
 			$info_type_done = $db->execute();
-			if ($info_type_done);
+			if ($info_type_done)
 			{
 				// If succesfully remove Info_type add queued success message.
 				$app->enqueueMessage(JText::_('The (com_supportgroups.info_type) type alias was removed from the <b>#__ucm_content</b> table'));
@@ -599,7 +603,7 @@ class com_supportgroupsInstallerScript
 			$db->setQuery($query);
 			// Execute the query to remove Area items
 			$area_done = $db->execute();
-			if ($area_done);
+			if ($area_done)
 			{
 				// If succesfully remove Area add queued success message.
 				$app->enqueueMessage(JText::_('The (com_supportgroups.area) type alias was removed from the <b>#__content_type</b> table'));
@@ -614,7 +618,7 @@ class com_supportgroupsInstallerScript
 			$db->setQuery($query);
 			// Execute the query to remove Area items
 			$area_done = $db->execute();
-			if ($area_done);
+			if ($area_done)
 			{
 				// If succesfully remove Area add queued success message.
 				$app->enqueueMessage(JText::_('The (com_supportgroups.area) type alias was removed from the <b>#__contentitem_tag_map</b> table'));
@@ -629,7 +633,7 @@ class com_supportgroupsInstallerScript
 			$db->setQuery($query);
 			// Execute the query to remove Area items
 			$area_done = $db->execute();
-			if ($area_done);
+			if ($area_done)
 			{
 				// If succesfully remove Area add queued success message.
 				$app->enqueueMessage(JText::_('The (com_supportgroups.area) type alias was removed from the <b>#__ucm_content</b> table'));
@@ -685,7 +689,7 @@ class com_supportgroupsInstallerScript
 			$db->setQuery($query);
 			// Execute the query to remove Area_type items
 			$area_type_done = $db->execute();
-			if ($area_type_done);
+			if ($area_type_done)
 			{
 				// If succesfully remove Area_type add queued success message.
 				$app->enqueueMessage(JText::_('The (com_supportgroups.area_type) type alias was removed from the <b>#__content_type</b> table'));
@@ -700,7 +704,7 @@ class com_supportgroupsInstallerScript
 			$db->setQuery($query);
 			// Execute the query to remove Area_type items
 			$area_type_done = $db->execute();
-			if ($area_type_done);
+			if ($area_type_done)
 			{
 				// If succesfully remove Area_type add queued success message.
 				$app->enqueueMessage(JText::_('The (com_supportgroups.area_type) type alias was removed from the <b>#__contentitem_tag_map</b> table'));
@@ -715,7 +719,7 @@ class com_supportgroupsInstallerScript
 			$db->setQuery($query);
 			// Execute the query to remove Area_type items
 			$area_type_done = $db->execute();
-			if ($area_type_done);
+			if ($area_type_done)
 			{
 				// If succesfully remove Area_type add queued success message.
 				$app->enqueueMessage(JText::_('The (com_supportgroups.area_type) type alias was removed from the <b>#__ucm_content</b> table'));
@@ -771,7 +775,7 @@ class com_supportgroupsInstallerScript
 			$db->setQuery($query);
 			// Execute the query to remove Region items
 			$region_done = $db->execute();
-			if ($region_done);
+			if ($region_done)
 			{
 				// If succesfully remove Region add queued success message.
 				$app->enqueueMessage(JText::_('The (com_supportgroups.region) type alias was removed from the <b>#__content_type</b> table'));
@@ -786,7 +790,7 @@ class com_supportgroupsInstallerScript
 			$db->setQuery($query);
 			// Execute the query to remove Region items
 			$region_done = $db->execute();
-			if ($region_done);
+			if ($region_done)
 			{
 				// If succesfully remove Region add queued success message.
 				$app->enqueueMessage(JText::_('The (com_supportgroups.region) type alias was removed from the <b>#__contentitem_tag_map</b> table'));
@@ -801,7 +805,7 @@ class com_supportgroupsInstallerScript
 			$db->setQuery($query);
 			// Execute the query to remove Region items
 			$region_done = $db->execute();
-			if ($region_done);
+			if ($region_done)
 			{
 				// If succesfully remove Region add queued success message.
 				$app->enqueueMessage(JText::_('The (com_supportgroups.region) type alias was removed from the <b>#__ucm_content</b> table'));
@@ -857,7 +861,7 @@ class com_supportgroupsInstallerScript
 			$db->setQuery($query);
 			// Execute the query to remove Country items
 			$country_done = $db->execute();
-			if ($country_done);
+			if ($country_done)
 			{
 				// If succesfully remove Country add queued success message.
 				$app->enqueueMessage(JText::_('The (com_supportgroups.country) type alias was removed from the <b>#__content_type</b> table'));
@@ -872,7 +876,7 @@ class com_supportgroupsInstallerScript
 			$db->setQuery($query);
 			// Execute the query to remove Country items
 			$country_done = $db->execute();
-			if ($country_done);
+			if ($country_done)
 			{
 				// If succesfully remove Country add queued success message.
 				$app->enqueueMessage(JText::_('The (com_supportgroups.country) type alias was removed from the <b>#__contentitem_tag_map</b> table'));
@@ -887,7 +891,7 @@ class com_supportgroupsInstallerScript
 			$db->setQuery($query);
 			// Execute the query to remove Country items
 			$country_done = $db->execute();
-			if ($country_done);
+			if ($country_done)
 			{
 				// If succesfully remove Country add queued success message.
 				$app->enqueueMessage(JText::_('The (com_supportgroups.country) type alias was removed from the <b>#__ucm_content</b> table'));
@@ -943,7 +947,7 @@ class com_supportgroupsInstallerScript
 			$db->setQuery($query);
 			// Execute the query to remove Currency items
 			$currency_done = $db->execute();
-			if ($currency_done);
+			if ($currency_done)
 			{
 				// If succesfully remove Currency add queued success message.
 				$app->enqueueMessage(JText::_('The (com_supportgroups.currency) type alias was removed from the <b>#__content_type</b> table'));
@@ -958,7 +962,7 @@ class com_supportgroupsInstallerScript
 			$db->setQuery($query);
 			// Execute the query to remove Currency items
 			$currency_done = $db->execute();
-			if ($currency_done);
+			if ($currency_done)
 			{
 				// If succesfully remove Currency add queued success message.
 				$app->enqueueMessage(JText::_('The (com_supportgroups.currency) type alias was removed from the <b>#__contentitem_tag_map</b> table'));
@@ -973,7 +977,7 @@ class com_supportgroupsInstallerScript
 			$db->setQuery($query);
 			// Execute the query to remove Currency items
 			$currency_done = $db->execute();
-			if ($currency_done);
+			if ($currency_done)
 			{
 				// If succesfully remove Currency add queued success message.
 				$app->enqueueMessage(JText::_('The (com_supportgroups.currency) type alias was removed from the <b>#__ucm_content</b> table'));
@@ -1029,7 +1033,7 @@ class com_supportgroupsInstallerScript
 			$db->setQuery($query);
 			// Execute the query to remove Help_document items
 			$help_document_done = $db->execute();
-			if ($help_document_done);
+			if ($help_document_done)
 			{
 				// If succesfully remove Help_document add queued success message.
 				$app->enqueueMessage(JText::_('The (com_supportgroups.help_document) type alias was removed from the <b>#__content_type</b> table'));
@@ -1044,7 +1048,7 @@ class com_supportgroupsInstallerScript
 			$db->setQuery($query);
 			// Execute the query to remove Help_document items
 			$help_document_done = $db->execute();
-			if ($help_document_done);
+			if ($help_document_done)
 			{
 				// If succesfully remove Help_document add queued success message.
 				$app->enqueueMessage(JText::_('The (com_supportgroups.help_document) type alias was removed from the <b>#__contentitem_tag_map</b> table'));
@@ -1059,7 +1063,7 @@ class com_supportgroupsInstallerScript
 			$db->setQuery($query);
 			// Execute the query to remove Help_document items
 			$help_document_done = $db->execute();
-			if ($help_document_done);
+			if ($help_document_done)
 			{
 				// If succesfully remove Help_document add queued success message.
 				$app->enqueueMessage(JText::_('The (com_supportgroups.help_document) type alias was removed from the <b>#__ucm_content</b> table'));
@@ -1103,7 +1107,7 @@ class com_supportgroupsInstallerScript
 		$query->where($supportgroups_condition);
 		$db->setQuery($query);
 		$help_document_done = $db->execute();
-		if ($help_document_done);
+		if ($help_document_done)
 		{
 			// If succesfully remove supportgroups add queued success message.
 			$app->enqueueMessage(JText::_('All related items was removed from the <b>#__assets</b> table'));
@@ -1118,57 +1122,63 @@ class com_supportgroupsInstallerScript
 	}
 
 	/**
-	 * method to update the component
+	 * Called on update
 	 *
-	 * @return void
+	 * @param   JAdapterInstance  $parent  The object responsible for running this script
+	 *
+	 * @return  boolean  True on success
 	 */
-	function update($parent)
-	{
-		
-	}
+	public function update(JAdapterInstance $parent){}
 
 	/**
-	 * method to run before an install/update/uninstall method
+	 * Called before any type of action
 	 *
-	 * @return void
+	 * @param   string  $type  Which action is happening (install|uninstall|discover_install|update)
+	 * @param   JAdapterInstance  $parent  The object responsible for running this script
+	 *
+	 * @return  boolean  True on success
 	 */
-	function preflight($type, $parent)
+	public function preflight($type, JAdapterInstance $parent)
 	{
 		// get application
 		$app = JFactory::getApplication();
-		// is redundant ...hmmm
-		if ($type == 'uninstall')
+		// is redundant or so it seems ...hmmm let me know if it works again
+		if ($type === 'uninstall')
 		{
 			return true;
 		}
 		// the default for both install and update
 		$jversion = new JVersion();
-		if (!$jversion->isCompatible('3.6.0'))
+		if (!$jversion->isCompatible('3.8.0'))
 		{
-			$app->enqueueMessage('Please upgrade to at least Joomla! 3.6.0 before continuing!', 'error');
+			$app->enqueueMessage('Please upgrade to at least Joomla! 3.8.0 before continuing!', 'error');
 			return false;
 		}
 		// do any updates needed
-		if ($type == 'update')
+		if ($type === 'update')
 		{
 		}
 		// do any install needed
-		if ($type == 'install')
+		if ($type === 'install')
 		{
 		}
+		return true;
 	}
 
 	/**
-	 * method to run after an install/update/uninstall method
+	 * Called after any type of action
 	 *
-	 * @return void
+	 * @param   string  $type  Which action is happening (install|uninstall|discover_install|update)
+	 * @param   JAdapterInstance  $parent  The object responsible for running this script
+	 *
+	 * @return  boolean  True on success
 	 */
-	function postflight($type, $parent)
+	public function postflight($type, JAdapterInstance $parent)
 	{
 		// get application
 		$app = JFactory::getApplication();
 		// set the default component settings
-		if ($type == 'install')
+		if ($type === 'install')
 		{
 
 			// Get The Database object
@@ -1338,7 +1348,7 @@ class com_supportgroupsInstallerScript
 				</a>';
 		}
 		// do any updates needed
-		if ($type == 'update')
+		if ($type === 'update')
 		{
 
 			// Get The Database object
@@ -1696,7 +1706,8 @@ class com_supportgroupsInstallerScript
 			echo '<a target="_blank" href="http://www.vdm.io" title="Support Groups">
 				<img src="components/com_supportgroups/assets/images/vdm-component.jpg"/>
 				</a>
-				<h3>Upgrade to Version 1.0.8 Was Successful! Let us know if anything is not working as expected.</h3>';
+				<h3>Upgrade to Version 1.0.10 Was Successful! Let us know if anything is not working as expected.</h3>';
 		}
+		return true;
 	}
 }

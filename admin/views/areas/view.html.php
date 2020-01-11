@@ -6,28 +6,25 @@
       \ \/ / _` / __| __| | |  | |/ _ \ \ / / _ \ |/ _ \| '_ \| '_ ` _ \ / _ \ '_ \| __| | |\/| |/ _ \ __| '_ \ / _ \ / _` |
        \  / (_| \__ \ |_  | |__| |  __/\ V /  __/ | (_) | |_) | | | | | |  __/ | | | |_  | |  | |  __/ |_| | | | (_) | (_| |
         \/ \__,_|___/\__| |_____/ \___| \_/ \___|_|\___/| .__/|_| |_| |_|\___|_| |_|\__| |_|  |_|\___|\__|_| |_|\___/ \__,_|
-                                                        | |                                                                 
-                                                        |_| 				
+                                                        | |
+                                                        |_|
 /-------------------------------------------------------------------------------------------------------------------------------/
 
-	@version		@update number 32 of this MVC
-	@build			25th October, 2017
-	@created		4th March, 2016
+	@version		1.0.10
+	@build			14th August, 2019
+	@created		24th February, 2016
 	@package		Support Groups
 	@subpackage		view.html.php
-	@author			Llewellyn van der Merwe <http://www.vdm.io>	
+	@author			Llewellyn van der Merwe <http://www.vdm.io>
 	@copyright		Copyright (C) 2015. All Rights Reserved
-	@license		GNU/GPL Version 2 or later - http://www.gnu.org/licenses/gpl-2.0.html 
-	
-	Support Groups 
-                                                             
+	@license		GNU/GPL Version 2 or later - http://www.gnu.org/licenses/gpl-2.0.html
+
+	Support Groups
+
 /-----------------------------------------------------------------------------------------------------------------------------*/
 
 // No direct access to this file
 defined('_JEXEC') or die('Restricted access');
-
-// import Joomla view library
-jimport('joomla.application.component.view');
 
 /**
  * Supportgroups View class for the Areas
@@ -54,6 +51,8 @@ class SupportgroupsViewAreas extends JViewLegacy
 		$this->listOrder = $this->escape($this->state->get('list.ordering'));
 		$this->listDirn = $this->escape($this->state->get('list.direction'));
 		$this->saveOrder = $this->listOrder == 'ordering';
+		// set the return here value
+		$this->return_here = urlencode(base64_encode((string) JUri::getInstance()));
 		// get global action permissions
 		$this->canDo = SupportgroupsHelper::getActions('area');
 		$this->canEdit = $this->canDo->get('area.edit');
@@ -133,7 +132,7 @@ class SupportgroupsViewAreas extends JViewLegacy
 				// add the button to the page
 				$dhtml = $layout->render(array('title' => $title));
 				$bar->appendButton('Custom', $dhtml, 'batch');
-			} 
+			}
 
 			if ($this->state->get('filter.published') == -2 && ($this->canState && $this->canDelete))
 			{
@@ -148,7 +147,7 @@ class SupportgroupsViewAreas extends JViewLegacy
 			{
 				JToolBarHelper::custom('areas.exportData', 'download', '', 'COM_SUPPORTGROUPS_EXPORT_DATA', true);
 			}
-		} 
+		}
 
 		if ($this->canDo->get('core.import') && $this->canDo->get('area.import'))
 		{
@@ -199,11 +198,19 @@ class SupportgroupsViewAreas extends JViewLegacy
 				'batch[access]',
 				JHtml::_('select.options', JHtml::_('access.assetgroups'), 'value', 'text')
 			);
-		} 
+		}
 
 		// Set Area Type Name Selection
-		$this->area_typeNameOptions = JFormHelper::loadFieldType('Areastype')->getOptions();
-		if ($this->area_typeNameOptions)
+		$this->area_typeNameOptions = JFormHelper::loadFieldType('Areastype')->options;
+		// We do some sanitation for Area Type Name filter
+		if (SupportgroupsHelper::checkArray($this->area_typeNameOptions) &&
+			isset($this->area_typeNameOptions[0]->value) &&
+			!SupportgroupsHelper::checkString($this->area_typeNameOptions[0]->value))
+		{
+			unset($this->area_typeNameOptions[0]);
+		}
+		// Only load Area Type Name filter if it has values
+		if (SupportgroupsHelper::checkArray($this->area_typeNameOptions))
 		{
 			// Area Type Name Filter
 			JHtmlSidebar::addFilter(
@@ -224,8 +231,16 @@ class SupportgroupsViewAreas extends JViewLegacy
 		}
 
 		// Set Region Name Selection
-		$this->regionNameOptions = JFormHelper::loadFieldType('Regions')->getOptions();
-		if ($this->regionNameOptions)
+		$this->regionNameOptions = JFormHelper::loadFieldType('Regions')->options;
+		// We do some sanitation for Region Name filter
+		if (SupportgroupsHelper::checkArray($this->regionNameOptions) &&
+			isset($this->regionNameOptions[0]->value) &&
+			!SupportgroupsHelper::checkString($this->regionNameOptions[0]->value))
+		{
+			unset($this->regionNameOptions[0]);
+		}
+		// Only load Region Name filter if it has values
+		if (SupportgroupsHelper::checkArray($this->regionNameOptions))
 		{
 			// Region Name Filter
 			JHtmlSidebar::addFilter(

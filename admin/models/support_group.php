@@ -6,21 +6,21 @@
       \ \/ / _` / __| __| | |  | |/ _ \ \ / / _ \ |/ _ \| '_ \| '_ ` _ \ / _ \ '_ \| __| | |\/| |/ _ \ __| '_ \ / _ \ / _` |
        \  / (_| \__ \ |_  | |__| |  __/\ V /  __/ | (_) | |_) | | | | | |  __/ | | | |_  | |  | |  __/ |_| | | | (_) | (_| |
         \/ \__,_|___/\__| |_____/ \___| \_/ \___|_|\___/| .__/|_| |_| |_|\___|_| |_|\__| |_|  |_|\___|\__|_| |_|\___/ \__,_|
-                                                        | |                                                                 
-                                                        |_| 				
+                                                        | |
+                                                        |_|
 /-------------------------------------------------------------------------------------------------------------------------------/
 
-	@version		@update number 36 of this MVC
-	@build			25th October, 2017
-	@created		4th March, 2016
+	@version		1.0.10
+	@build			14th August, 2019
+	@created		24th February, 2016
 	@package		Support Groups
 	@subpackage		support_group.php
-	@author			Llewellyn van der Merwe <http://www.vdm.io>	
+	@author			Llewellyn van der Merwe <http://www.vdm.io>
 	@copyright		Copyright (C) 2015. All Rights Reserved
-	@license		GNU/GPL Version 2 or later - http://www.gnu.org/licenses/gpl-2.0.html 
-	
-	Support Groups 
-                                                             
+	@license		GNU/GPL Version 2 or later - http://www.gnu.org/licenses/gpl-2.0.html
+
+	Support Groups
+
 /-----------------------------------------------------------------------------------------------------------------------------*/
 
 // No direct access to this file
@@ -28,20 +28,58 @@ defined('_JEXEC') or die('Restricted access');
 
 use Joomla\Registry\Registry;
 
-// import Joomla modelform library
-jimport('joomla.application.component.modeladmin');
-
 /**
  * Supportgroups Support_group Model
  */
 class SupportgroupsModelSupport_group extends JModelAdmin
-{    
+{
+	/**
+	 * The tab layout fields array.
+	 *
+	 * @var      array
+	 */
+	protected $tabLayoutFields = array(
+		'details' => array(
+			'left' => array(
+				'phone',
+				'facility',
+				'info'
+			),
+			'right' => array(
+				'male',
+				'male_children',
+				'male_art',
+				'female',
+				'female_children',
+				'female_art'
+			),
+			'fullwidth' => array(
+				'details'
+			),
+			'above' => array(
+				'name',
+				'alias'
+			),
+			'under' => array(
+				'marker'
+			)
+		),
+		'location' => array(
+			'left' => array(
+				'area'
+			),
+			'fullwidth' => array(
+				'note_set_marker'
+			)
+		)
+	);
+
 	/**
 	 * @var        string    The prefix to use with controller messages.
 	 * @since   1.6
 	 */
 	protected $text_prefix = 'COM_SUPPORTGROUPS';
-    
+
 	/**
 	 * The type alias for this content type.
 	 *
@@ -63,6 +101,9 @@ class SupportgroupsModelSupport_group extends JModelAdmin
 	 */
 	public function getTable($type = 'support_group', $prefix = 'SupportgroupsTable', $config = array())
 	{
+		// add table path for when model gets used from other component
+		$this->addTablePath(JPATH_ADMINISTRATOR . '/components/com_supportgroups/tables');
+		// get instance of the table
 		return JTable::getInstance($type, $prefix, $config);
 	}
     
@@ -113,10 +154,10 @@ class SupportgroupsModelSupport_group extends JModelAdmin
 	}
 
 	/**
-	* Method to get list data.
-	*
-	* @return mixed  An array of data items on success, false on failure.
-	*/
+	 * Method to get list data.
+	 *
+	 * @return mixed  An array of data items on success, false on failure.
+	 */
 	public function getVvvpayments()
 	{
 		// Get the user object.
@@ -179,11 +220,9 @@ class SupportgroupsModelSupport_group extends JModelAdmin
 			// set values to display correctly.
 			if (SupportgroupsHelper::checkArray($items))
 			{
-				// get user object.
-				$user = JFactory::getUser();
 				foreach ($items as $nr => &$item)
 				{
-					$access = ($user->authorise('payment.access', 'com_supportgroups.payment.' . (int) $item->id) && $user->authorise('payment.access', 'com_supportgroups'));
+					$access = (JFactory::getUser()->authorise('payment.access', 'com_supportgroups.payment.' . (int) $item->id) && JFactory::getUser()->authorise('payment.access', 'com_supportgroups'));
 					if (!$access)
 					{
 						unset($items[$nr]);
@@ -219,10 +258,10 @@ class SupportgroupsModelSupport_group extends JModelAdmin
 	}
 
 	/**
-	* Method to convert selection values to translatable string.
-	*
-	* @return translatable string
-	*/
+	 * Method to convert selection values to translatable string.
+	 *
+	 * @return translatable string
+	 */
 	public function selectionTranslationVvvpayments($value,$name)
 	{
 		// Array of year language strings
@@ -259,22 +298,25 @@ class SupportgroupsModelSupport_group extends JModelAdmin
 			}
 		}
 		return $value;
-	} 
+	}
 
 	/**
 	 * Method to get the record form.
 	 *
 	 * @param   array    $data      Data for the form.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
+	 * @param   array    $options   Optional array of options for the form creation.
 	 *
 	 * @return  mixed  A JForm object on success, false on failure
 	 *
 	 * @since   1.6
 	 */
-	public function getForm($data = array(), $loadData = true)
+	public function getForm($data = array(), $loadData = true, $options = array('control' => 'jform'))
 	{
+		// set load data option
+		$options['load_data'] = $loadData;
 		// Get the form.
-		$form = $this->loadForm('com_supportgroups.support_group', 'support_group', array('control' => 'jform', 'load_data' => $loadData));
+		$form = $this->loadForm('com_supportgroups.support_group', 'support_group', $options);
 
 		if (empty($form))
 		{
@@ -342,6 +384,7 @@ class SupportgroupsModelSupport_group extends JModelAdmin
 			$form->setFieldAttribute('name', 'disabled', 'true');
 			// Disable fields for display.
 			$form->setFieldAttribute('name', 'readonly', 'true');
+			// If there is no value continue.
 			if (!$form->getValue('name'))
 			{
 				// Disable fields while saving.
@@ -358,6 +401,7 @@ class SupportgroupsModelSupport_group extends JModelAdmin
 			$form->setFieldAttribute('phone', 'disabled', 'true');
 			// Disable fields for display.
 			$form->setFieldAttribute('phone', 'readonly', 'true');
+			// If there is no value continue.
 			if (!$form->getValue('phone'))
 			{
 				// Disable fields while saving.
@@ -374,6 +418,7 @@ class SupportgroupsModelSupport_group extends JModelAdmin
 			$form->setFieldAttribute('area', 'disabled', 'true');
 			// Disable fields for display.
 			$form->setFieldAttribute('area', 'readonly', 'true');
+			// If there is no value continue.
 			if (!$form->getValue('area'))
 			{
 				// Disable fields while saving.
@@ -390,6 +435,7 @@ class SupportgroupsModelSupport_group extends JModelAdmin
 			$form->setFieldAttribute('facility', 'disabled', 'true');
 			// Disable fields for display.
 			$form->setFieldAttribute('facility', 'readonly', 'true');
+			// If there is no value continue.
 			if (!$form->getValue('facility'))
 			{
 				// Disable fields while saving.
@@ -406,6 +452,7 @@ class SupportgroupsModelSupport_group extends JModelAdmin
 			$form->setFieldAttribute('male', 'disabled', 'true');
 			// Disable fields for display.
 			$form->setFieldAttribute('male', 'readonly', 'true');
+			// If there is no value continue.
 			if (!$form->getValue('male'))
 			{
 				// Disable fields while saving.
@@ -422,6 +469,7 @@ class SupportgroupsModelSupport_group extends JModelAdmin
 			$form->setFieldAttribute('female', 'disabled', 'true');
 			// Disable fields for display.
 			$form->setFieldAttribute('female', 'readonly', 'true');
+			// If there is no value continue.
 			if (!$form->getValue('female'))
 			{
 				// Disable fields while saving.
@@ -438,6 +486,7 @@ class SupportgroupsModelSupport_group extends JModelAdmin
 			$form->setFieldAttribute('alias', 'disabled', 'true');
 			// Disable fields for display.
 			$form->setFieldAttribute('alias', 'readonly', 'true');
+			// If there is no value continue.
 			if (!$form->getValue('alias'))
 			{
 				// Disable fields while saving.
@@ -454,6 +503,7 @@ class SupportgroupsModelSupport_group extends JModelAdmin
 			$form->setFieldAttribute('details', 'disabled', 'true');
 			// Disable fields for display.
 			$form->setFieldAttribute('details', 'readonly', 'true');
+			// If there is no value continue.
 			if (!$form->getValue('details'))
 			{
 				// Disable fields while saving.
@@ -470,6 +520,7 @@ class SupportgroupsModelSupport_group extends JModelAdmin
 			$form->setFieldAttribute('female_art', 'disabled', 'true');
 			// Disable fields for display.
 			$form->setFieldAttribute('female_art', 'readonly', 'true');
+			// If there is no value continue.
 			if (!$form->getValue('female_art'))
 			{
 				// Disable fields while saving.
@@ -486,6 +537,7 @@ class SupportgroupsModelSupport_group extends JModelAdmin
 			$form->setFieldAttribute('male_art', 'disabled', 'true');
 			// Disable fields for display.
 			$form->setFieldAttribute('male_art', 'readonly', 'true');
+			// If there is no value continue.
 			if (!$form->getValue('male_art'))
 			{
 				// Disable fields while saving.
@@ -502,6 +554,7 @@ class SupportgroupsModelSupport_group extends JModelAdmin
 			$form->setFieldAttribute('male_children', 'disabled', 'true');
 			// Disable fields for display.
 			$form->setFieldAttribute('male_children', 'readonly', 'true');
+			// If there is no value continue.
 			if (!$form->getValue('male_children'))
 			{
 				// Disable fields while saving.
@@ -518,6 +571,7 @@ class SupportgroupsModelSupport_group extends JModelAdmin
 			$form->setFieldAttribute('info', 'disabled', 'true');
 			// Disable fields for display.
 			$form->setFieldAttribute('info', 'readonly', 'true');
+			// If there is no value continue.
 			if (!$form->getValue('info'))
 			{
 				// Disable fields while saving.
@@ -529,17 +583,20 @@ class SupportgroupsModelSupport_group extends JModelAdmin
 		// Only load these values if no id is found
 		if (0 == $id)
 		{
-			// Set redirected field name
-			$redirectedField = $jinput->get('ref', null, 'STRING');
-			// Set redirected field value
-			$redirectedValue = $jinput->get('refid', 0, 'INT');
+			// Set redirected view name
+			$redirectedView = $jinput->get('ref', null, 'STRING');
+			// Set field name (or fall back to view name)
+			$redirectedField = $jinput->get('field', $redirectedView, 'STRING');
+			// Set redirected view id
+			$redirectedId = $jinput->get('refid', 0, 'INT');
+			// Set field id (or fall back to redirected view id)
+			$redirectedValue = $jinput->get('field_id', $redirectedId, 'INT');
 			if (0 != $redirectedValue && $redirectedField)
 			{
 				// Now set the local-redirected field default value
 				$form->setValue($redirectedField, null, $redirectedValue);
 			}
 		}
-
 		return $form;
 	}
 
@@ -590,7 +647,7 @@ class SupportgroupsModelSupport_group extends JModelAdmin
 	protected function canEditState($record)
 	{
 		$user = JFactory::getUser();
-		$recordId	= (!empty($record->id)) ? $record->id : 0;
+		$recordId = (!empty($record->id)) ? $record->id : 0;
 
 		if ($recordId)
 		{
@@ -698,7 +755,7 @@ class SupportgroupsModelSupport_group extends JModelAdmin
 		}
 
 		return $data;
-	} 
+	}
 
 	/**
 	 * Method to get the unique fields of this table.
@@ -856,7 +913,7 @@ class SupportgroupsModelSupport_group extends JModelAdmin
 	 *
 	 * @return  mixed  An array of new IDs on success, boolean false on failure.
 	 *
-	 * @since	12.2
+	 * @since 12.2
 	 */
 	protected function batchCopy($values, $pks, $contexts)
 	{
@@ -949,7 +1006,7 @@ class SupportgroupsModelSupport_group extends JModelAdmin
 			$this->table->id = 0;
 
 			// TODO: Deal with ordering?
-			// $this->table->ordering	= 1;
+			// $this->table->ordering = 1;
 
 			// Check the row.
 			if (!$this->table->check())
@@ -983,7 +1040,7 @@ class SupportgroupsModelSupport_group extends JModelAdmin
 		$this->cleanCache();
 
 		return $newIds;
-	} 
+	}
 
 	/**
 	 * Batch move items to a new category
@@ -994,7 +1051,7 @@ class SupportgroupsModelSupport_group extends JModelAdmin
 	 *
 	 * @return  boolean  True if successful, false otherwise and internal error is set.
 	 *
-	 * @since	12.2
+	 * @since 12.2
 	 */
 	protected function batchMove($values, $pks, $contexts)
 	{
@@ -1121,7 +1178,7 @@ class SupportgroupsModelSupport_group extends JModelAdmin
 		if (!isset($data['info']))
 		{
 			$data['info'] = '';
-		} 
+		}
 
 		// Set the info string to JSON string.
 		if (isset($data['info']))
@@ -1236,14 +1293,14 @@ class SupportgroupsModelSupport_group extends JModelAdmin
 	}
 
 	/**
-	* Method to change the title/s & alias.
-	*
-	* @param   string         $alias        The alias.
-	* @param   string/array   $title        The title.
-	*
-	* @return	array/string  Contains the modified title/s and/or alias.
-	*
-	*/
+	 * Method to change the title/s & alias.
+	 *
+	 * @param   string         $alias        The alias.
+	 * @param   string/array   $title        The title.
+	 *
+	 * @return	array/string  Contains the modified title/s and/or alias.
+	 *
+	 */
 	protected function _generateNewTitle($alias, $title = null)
 	{
 
